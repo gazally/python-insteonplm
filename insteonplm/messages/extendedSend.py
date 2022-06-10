@@ -91,7 +91,7 @@ class ExtendedSend(Message):
             cmd1 = None
             cmd2out = None
 
-        if cmd2 is not -1:
+        if cmd2 != -1:
             cmd2out = cmd2
 
         msg._address = Address(address)
