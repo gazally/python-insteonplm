@@ -435,7 +435,7 @@ class HttpTransport(asyncio.Transport):
         #     return 999
         _LOGGER.debug("Writing message: %s", url)
         try:
-            await self._read_write_lock
+            await self._read_write_lock.acquire()
             async with aiohttp.ClientSession(
                 loop=self._loop, auth=self._auth
             ) as session:
@@ -491,7 +491,7 @@ class HttpTransport(asyncio.Transport):
         self._protocol.connection_made(self)
         while self._restart_reader and not self._closing:
             try:
-                await self._read_write_lock
+                await self._read_write_lock.acquire()
                 async with aiohttp.ClientSession(
                     loop=self._loop, auth=self._auth
                 ) as session:

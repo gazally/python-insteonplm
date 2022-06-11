@@ -878,7 +878,7 @@ class Device:
 
     async def _process_send_queue(self):
         _LOGGER.debug("Starting %s Device._process_send_queue", self._address.human)
-        await self._send_msg_lock
+        await self._send_msg_lock.acquire()
         if self._send_msg_lock.locked():
             _LOGGER.debug("Device %s msg_lock locked", self._address.human)
         msg_info = await self._send_msg_queue.get()
@@ -1007,7 +1007,7 @@ class X10Device:
 
     async def _process_send_queue(self, msg, wait_ack):
         _LOGGER.debug("Starting x10Device._process_send_queue")
-        await self._send_msg_lock
+        await self._send_msg_lock.acquire()
         if self._send_msg_lock.locked():
             _LOGGER.debug("Lock is locked from yield from")
 
@@ -1356,7 +1356,7 @@ class ALDB:
         else:
             self._status = ALDBStatus.LOADING
             _LOGGER.debug("Tring to lock from load")
-            await self._rec_mgr_lock
+            await self._rec_mgr_lock.acquire()
             _LOGGER.debug("load yielded lock")
 
             mem_hi = mem_addr >> 8
@@ -1614,7 +1614,7 @@ class ALDB:
         try:
             with async_timeout.timeout(timeout + self._load_action.retries):
                 _LOGGER.debug("Tring to get lock in _read_timeout_manager.")
-                await self._rec_mgr_lock
+                await self._rec_mgr_lock.acquire()
                 _LOGGER.debug("_read_timeout_manager lock yielded.")
                 read_complete = True
         except asyncio.TimeoutError:

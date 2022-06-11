@@ -101,7 +101,7 @@ class Tools:
         conn.protocol.add_device_callback(self.async_new_device_callback)
         conn.protocol.add_all_link_done_callback(self.async_aldb_loaded_callback)
         self.plm = conn.protocol
-        await self.aldb_load_lock
+        await self.aldb_load_lock.acquire()
         if self.aldb_load_lock.locked():
             self.aldb_load_lock.release()
 

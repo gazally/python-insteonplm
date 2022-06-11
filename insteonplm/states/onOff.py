@@ -782,10 +782,10 @@ class OnOffKeypad(OnOffStateBase):
             _LOGGER.debug("Status was received")
             return
 
-        await self._status_response_lock
+        await self._status_response_lock.acquire()
         try:
             with async_timeout.timeout(2):
-                await self._status_response_lock
+                await self._status_response_lock.acquire()
                 _LOGGER.debug("Actual status received")
         except asyncio.TimeoutError:
             _LOGGER.debug("No status message received")
@@ -994,7 +994,7 @@ class OnOffKeypadLed(State):
 
     async def _send_led_on_off_request(self, group, val):
         _LOGGER.debug("OnOffKeypadLed._send_led_on_off_request was called")
-        await self._send_led_change_lock
+        await self._send_led_change_lock.acquire()
         self._new_value = set_bit(self._value, group, bool(val))
 
         user_data = Userdata({"d1": 0x01, "d2": 0x09, "d3": self._new_value})
