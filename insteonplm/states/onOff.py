@@ -549,7 +549,7 @@ class OnOffKeypad(OnOffStateBase):
         self._updatemethod = self._leds.async_refresh_state
         self._sent_property = {}
         self._loop = loop
-        self._status_response_lock = asyncio.Lock(loop=self._loop)
+        self._status_response_lock = asyncio.Lock()
         self._status_retries = 0
         self._status_received = False
 
@@ -957,7 +957,7 @@ class OnOffKeypadLed(State):
         self._button_status_method = None
 
         self._loop = loop
-        self._send_led_change_lock = asyncio.Lock(loop=self._loop)
+        self._send_led_change_lock = asyncio.Lock()
         self._button_observer_callbacks = {}
         self._new_value = 0
 

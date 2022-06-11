@@ -91,7 +91,7 @@ class IM(Device, asyncio.Protocol):
         self._devices = LinkedDevices(loop, workdir)
         self._poll_devices = poll_devices
         self._load_aldb = load_aldb
-        self._write_transport_lock = asyncio.Lock(loop=self._loop)
+        self._write_transport_lock = asyncio.Lock()
         self._message_callbacks = MessageCallback()
         self._x10_address = None
 

@@ -50,7 +50,7 @@ class Tools:
         self.group = None
         self.wait_time = 10
 
-        self.aldb_load_lock = asyncio.Lock(loop=loop)
+        self.aldb_load_lock = asyncio.Lock()
 
         if args:
             if args.verbose:

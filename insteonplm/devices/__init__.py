@@ -128,8 +128,8 @@ class Device:
         self._send_msg_queue = asyncio.Queue(loop=self._plm.loop)
         self._directACK_received_queue = asyncio.Queue(loop=self._plm.loop)
         self._device_info_queue = asyncio.Queue(loop=self._plm.loop)
-        self._send_msg_lock = asyncio.Lock(loop=self._plm.loop)
-        self._setup_default_links_lock = asyncio.Lock(loop=self._plm.loop)
+        self._send_msg_lock = asyncio.Lock()
+        self._setup_default_links_lock = asyncio.Lock()
         self._device_info_retries = 0
         self._all_link_complete_callback = None
 
@@ -945,7 +945,7 @@ class X10Device:
         self._aldb = ALDB(None, None, self._address, version=ALDBVersion.Null)
         self._message_callbacks = MessageCallback()
         self._stateList = StateList()
-        self._send_msg_lock = asyncio.Lock(loop=self._plm.loop)
+        self._send_msg_lock = asyncio.Lock()
         self._last_communication_received = datetime.datetime(1, 1, 1, 1, 1, 1)
 
     @property
@@ -1293,7 +1293,7 @@ class ALDB:
         self._address = address
         self._mem_addr = mem_addr
 
-        self._rec_mgr_lock = asyncio.Lock(loop=self._loop)
+        self._rec_mgr_lock = asyncio.Lock()
         self._load_action = LoadAction(0, 0, 0)
         self._cb_aldb_loaded = []
 

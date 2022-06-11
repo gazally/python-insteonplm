@@ -347,7 +347,7 @@ class HttpTransport(asyncio.Transport):
         self._has_reader = False
         self._has_writer = False
         self._poll_wait_time = 0.0005
-        self._read_write_lock = asyncio.Lock(loop=self._loop)
+        self._read_write_lock = asyncio.Lock()
         self._last_read = asyncio.Queue(loop=self._loop)
         self._restart_reader = True
         _LOGGER.debug("Starting the reader in HttpTrasnport __init__")
