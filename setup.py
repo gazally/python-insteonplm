@@ -26,11 +26,14 @@ setup(
         'pyserial==3.2.0',
         'pyserial-asyncio',
         'async_timeout',
-        'aiohttp'
+        'aiohttp',
+        'paho-mqtt',
+        'requests'
     ],
     entry_points={
         'console_scripts': ['insteonplm_monitor = insteonplm.tools:monitor',
                             'insteonplm_interactive = '
-                            'insteonplm.tools:interactive']
+                            'insteonplm.tools:interactive'
+                            'insteonplm_mqtt = insteonplm.mqtt:run_mqtt']
     }
 )

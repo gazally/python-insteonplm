@@ -1,6 +1,13 @@
 insteonplm
 ==========
 
+Modifications in this fork
+------------
+- Fixed build warnings
+- Updated for changes to asyncio API in recent Python versions
+- WIP: MQTT interface.  Currently communicates device information and
+  can set the level of a dimmable switch.
+
 |Build Status| |GitHub release| |PyPI|
 
 This is a Python package to interface with an Insteon Modem. It has been
