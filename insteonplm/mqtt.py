@@ -30,16 +30,14 @@ class MQTTLink:
 
         # connection variables
         self.device = args.device
-        self.username = None
-        self.password = None
-        self.host = None
-        self.port = None
 
         # MQTT variables
+        self.client = mqtt.Client()
+        self.mqtt_broker = args.broker
+        self.mqtt_port = args.port
+        self.topic = args.topic
         username = os.getenv("MQTT_USER")
         password = os.getenv("MQTT_PASSWORD")
-        self.client = mqtt.Client()
-        self.topic = args.topic
         if username is not None:
             self.client.username_pw_set(username, password)
         if args.use_tls:
@@ -83,7 +81,7 @@ class MQTTLink:
         task.add_done_callback(self.tasks.discard)
 
         logger.info("Calling MQTT connect")
-        self.client.connect(args.broker, args.port)
+        self.client.connect(self.mqtt_broker, self.mqtt_port)
         self.client.will_set(topic="/".join((self.topic, "status")), payload="offline", qos=1, retain=True)
         self.client.loop_start()
 
@@ -98,16 +96,16 @@ class MQTTLink:
     async def connect(self, poll_devices=False, device=None, workdir=None):
         """Connect to the IM."""
         await self.aldb_load_lock.acquire()
-        device = self.host if self.host else self.device
+        device = self.device
         logger.info("Connecting to Insteon Modem at %s", device)
         self.device = device if device else self.device
         self.workdir = workdir if workdir else self.workdir
         conn = await insteonplm.Connection.create(
             device=self.device,
-            host=self.host,
-            port=self.port,
-            username=self.username,
-            password=self.password,
+            host=None,
+            port=None,
+            username=None,
+            password=None,
             loop=self.loop,
             poll_devices=poll_devices,
             workdir=self.workdir,
@@ -358,5 +356,3 @@ def run_mqtt():
     finally:
         loop.stop()
         loop.close()
-
-
