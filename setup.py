@@ -33,7 +33,7 @@ setup(
     entry_points={
         'console_scripts': ['insteonplm_monitor = insteonplm.tools:monitor',
                             'insteonplm_interactive = '
-                            'insteonplm.tools:interactive'
+                            'insteonplm.tools:interactive',
                             'insteonplm_mqtt = insteonplm.mqtt:run_mqtt']
     }
 )
