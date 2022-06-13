@@ -292,7 +292,7 @@ class MQTTLink:
         level = args.get("level", None)
         group = args.get("group", 1)
 
-        if addr and level and group:
+        if addr and group and level is not None:
             self.device_set_level(addr, level, group)
         else:
             logger.error("set_level: Invalid device, level, or group in %s", args)
